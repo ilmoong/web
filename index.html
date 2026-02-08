@@ -295,18 +295,26 @@ Apa pun yang kamu impikan, pelan-pelan semoga satu per satu bisa terwujud dengan
 Semangat terus ya buat ngejar semua keinginan kamu.
 Aku selalu dukung kamu dari sini. 💖`;
 
+
+let alreadyTyped = false;
+
 function startTyping(){
-  const el=document.getElementById('typedText');
-  el.textContent='';
-  let i=0;
+  if(alreadyTyped) return;
+  alreadyTyped = true;
+
+  const el = document.getElementById('typedText');
+  el.textContent = '';
+
+  let i = 0;
 
   function type(){
-    if(i<message.length){
-      el.textContent+=message[i];
+    if(i < message.length){
+      el.textContent += message.charAt(i);
       i++;
-      setTimeout(type,25);
+      setTimeout(type, 25);
     }
   }
+
   type();
 }
 </script>
