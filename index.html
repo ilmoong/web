@@ -8,8 +8,10 @@
 <style>
 body{
   margin:0;
-  font-family: 'Segoe UI', sans-serif;
-  background:linear-gradient(#2b2e5a,#1c1e3c);
+  font-family:'Segoe UI', sans-serif;
+  background:
+    linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+    url('images.jpg') center/cover no-repeat fixed;
   color:white;
   display:flex;
   justify-content:center;
@@ -140,7 +142,7 @@ video{
 
 <!-- BACKGROUND MUSIC -->
 <audio id="bgMusic" loop>
-  <source src="ssstik.io_@nogika_chaba_1770562410533.mp4" type="audio/mpeg">
+  <source src="bg-music.mp3" type="audio/mpeg">
 </audio>
 
 <button class="music-btn" onclick="toggleMusic()">🎵</button>
@@ -305,5 +307,6 @@ function startTyping(){
   type();
 }
 </script>
+
 </body>
 </html>
