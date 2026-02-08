@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise</title>
+<style>
+body{
+  margin:0;
+  font-family:sans-serif;
+  background:linear-gradient(#2b2e5a,#1c1e3c);
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding-top:80px; /* ubah angka ini untuk naik/turun */
+  min-height:100vh;
+  overflow:auto; /* bisa scroll */
+}
+.container{
+  width:95%;
+  max-width:420px;
+  text-align:center;
+  position:relative;
+}
+
+/* ==== CARD GAME ==== */
+.card-box{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-top:15px;
+  perspective:800px;
+}
+
+.card{
+  height:70px;
+  border-radius:12px;
+  cursor:pointer;
+  position:relative;
+  transform-style:preserve-3d;
+  transition:transform 0.45s;
+}
+
+.card:hover{transform:scale(1.05);}
+
+.card-face{
+  position:absolute;
+  width:100%;
+  height:100%;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  backface-visibility:hidden;
+}
+
+.card-front{ background:#777; }
+.card-back{ background:#999; transform:rotateY(180deg); }
+
+.card.flipped{ transform:rotateY(180deg); }
+
+button{
+  padding:12px 18px;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
+  margin-top:15px;
+  cursor:pointer;
+}
+
+#cake{font-size:80px;margin:15px 0;}
+
+/* ==== VIDEO ==== */
+video{
+  width:100%;
+  margin-top:15px;
+  border-radius:12px;
+}
+
+/* ==== PAGE SYSTEM ==== */
+.page{
+  position:absolute;
+  width:100%;
+  top:0;
+  left:0;
+  opacity:0;
+  transform:scale(0.9);
+  pointer-events:none;
+}
+
+.page.active{
+  opacity:1;
+  transform:scale(1);
+  pointer-events:auto;
+  animation:popup 0.35s ease;
+}
+
+/* ==== POPUP ANIMATION ==== */
+@keyframes popup{
+  0%{opacity:0; transform:scale(0.7);} 
+  60%{opacity:1; transform:scale(1.05);} 
+  100%{transform:scale(1);} 
+}
+
+/* ==== TYPING EFFECT ==== */
+.typing{
+  white-space:pre-line;
+  text-align:left;
+  margin-top:10px;
+  line-height:1.5;
+}
+
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- PAGE 1 GAME -->
+<div id="gamePage" class="page active">
+  <h2>A Little Game for You 🎁</h2>
+  <p>Balik 2 kartu yang sama!</p>
+  <div class="card-box" id="board"></div>
+</div>
+
+<!-- PAGE 2 CAKE -->
+<div id="cakePage" class="page">
+  <h2>Make a Wish 🎉</h2>
+  <div id="cake">🎂🔥</div>
+  <p>Buat permintaan lalu tiup lilinnya!</p>
+  <button onclick="blowCandle()">Tiup Lilin</button>
+</div>
+
+<!-- PAGE 3 MESSAGE -->
+<div id="msgPage" class="page">
+  <h2>Happy Birthday! 🥳</h2>
+  <div id="typedText" class="typing"></div>
+
+  <button onclick="showPage('galleryPage')">
+    Buka Gallery 📸
+  </button>
+</div>
+
+<!-- PAGE 4 GALLERY -->
+<div id="galleryPage" class="page">
+  <h2>Gallery Memories 🎬</h2>
+
+  <!-- Video 1 -->
+  <video controls>
+    <source src="d53857f39bad42c8abb7c0aed4613977.mp4" type="video/mp4">
+  </video>
+  <p class="video-desc">Momen pertama kita bikin video bareng. Selalu jadi kenangan favorit 💖</p>
+
+  <!-- Video 2 -->
+  <video controls>
+    <source src="VID-20250414-WA0130.mp4" type="video/mp4">
+  </video>
+  <p class="video-desc">zaman waktum masih di evos 😭😭.</p>
+
+  <!-- Tambah video lagi kalau mau -->
+
+  <button onclick="showPage('msgPage')">
+    ⬅ Kembali
+  </button>
+</div>
+
+</div>
+
+<script>
+/* === MEMORY GAME === */
+const icons = ['🎉','🎁','💖','🥳'];
+let cards = [...icons, ...icons]
+  .sort(() => Math.random() - 0.5);
+
+const board = document.getElementById('board');
+let first=null, second=null, lock=false, matched=0;
+
+cards.forEach(icon => {
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  const front = document.createElement('div');
+  front.className = 'card-face card-front';
+
+  const back = document.createElement('div');
+  back.className = 'card-face card-back';
+  back.textContent = icon;
+
+  card.appendChild(front);
+  card.appendChild(back);
+  board.appendChild(card);
+
+  card.onclick = () => {
+    if(lock || card===first || card.classList.contains('matched') || card.classList.contains('flipped')) return;
+
+    card.classList.add('flipped');
+
+    if(!first){
+      first = card;
+    }else{
+      second = card;
+      lock = true;
+
+      if(first.lastChild.textContent === second.lastChild.textContent){
+        first.classList.add('matched');
+        second.classList.add('matched');
+        matched++;
+        resetTurn();
+
+        if(matched === icons.length){
+          setTimeout(()=>showPage('cakePage'),600);
+        }
+      }else{
+        setTimeout(()=>{
+          first.classList.remove('flipped');
+          second.classList.remove('flipped');
+          resetTurn();
+        },800);
+      }
+    }
+  };
+});
+
+function resetTurn(){
+  first=null;
+  second=null;
+  lock=false;
+}
+
+/* === PAGE SWITCH === */
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const target = document.getElementById(id);
+  void target.offsetWidth;
+  target.classList.add('active');
+
+  if(id === 'msgPage'){
+    startTyping();
+  }
+}
+
+/* === CANDLE === */
+function blowCandle(){
+  document.getElementById('cake').textContent = '🎂';
+  setTimeout(()=>showPage('msgPage'),800);
+}
+
+/* === TYPING EFFECT === */
+const message = `Semoga kamu selalu sehat, bahagia, dan semua keinginanmu tercapai tahun ini.
+
+Semoga di usia yang baru ini, kamu makin kuat, makin sabar, dan makin percaya sama diri sendiri. Apa pun yang kamu impikan, pelan-pelan semoga satu per satu bisa terwujud dengan cara terbaik.
+
+Semangat terus buat kejar semua keinginan kamu, jangan pernah takut gagal yaa. Aku selalu dukung kamu di sini. 💖`;
+
+function startTyping(){
+  const el = document.getElementById('typedText');
+  el.innerHTML = '';
+
+  let i = 0;
+
+  function type(){
+    if(i < message.length){
+      el.textContent += message.charAt(i);
+      i++;
+      setTimeout(type, 25);
+    }
+  }
+
+  type();
+}
+</script>
+</body>
+</html>
