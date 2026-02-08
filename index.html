@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Birthday Surprise 💖</title>
+<title>Birthday Surprise 🎂</title>
 
 <style>
 body{
@@ -40,85 +40,12 @@ body{
   background:url('Spotify light pink app icons for iPhone 2024.jpg') center/cover no-repeat;
   cursor:pointer;
   box-shadow:0 6px 14px rgba(0,0,0,0.3);
+  transition:transform 0.2s, opacity 0.2s;
 }
+.music-btn:hover{ transform:scale(1.08); }
+.music-btn.paused{ opacity:0.6; }
 
-/* ===== PAGE ===== */
-.page{
-  position:absolute;
-  width:100%;
-  top:0;
-  left:0;
-  opacity:0;
-  transform:scale(0.9);
-  pointer-events:none;
-}
-
-.page.active{
-  opacity:1;
-  transform:scale(1);
-  pointer-events:auto;
-  animation:popup 0.35s ease;
-}
-
-@keyframes popup{
-  0%{opacity:0; transform:scale(0.7);}
-  60%{opacity:1; transform:scale(1.05);}
-  100%{transform:scale(1);}
-}
-
-/* ===== OPENING LETTER ===== */
-.letter-wrapper{
-  display:flex;
-  justify-content:center;
-  margin-top:60px;
-}
-
-.envelope{
-  width:260px;
-  height:180px;
-  background:#f2a7c1;
-  position:relative;
-  border-radius:12px;
-  cursor:pointer;
-  box-shadow:0 10px 25px rgba(0,0,0,0.35);
-  overflow:hidden;
-}
-
-.envelope-body{
-  position:absolute;
-  inset:0;
-  background:#f2a7c1;
-}
-
-.envelope-top{
-  position:absolute;
-  width:100%;
-  height:100%;
-  background:#f6bfd4;
-  clip-path:polygon(0 0,100% 0,50% 55%);
-  transform-origin:top;
-  transition:transform 0.8s ease;
-}
-
-.envelope.open .envelope-top{
-  transform:rotateX(180deg);
-}
-
-.letter-text{
-  position:absolute;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  color:white;
-  text-align:center;
-}
-
-.letter-text h3{margin:0;font-size:22px;}
-.letter-text p{margin-top:6px;font-size:14px;}
-
-/* ===== GAME ===== */
+/* ===== CARD GAME ===== */
 .card-box{
   display:grid;
   grid-template-columns:repeat(4,1fr);
@@ -136,6 +63,8 @@ body{
   transition:transform 0.45s;
 }
 
+.card:hover{transform:scale(1.05);}
+
 .card-face{
   position:absolute;
   width:100%;
@@ -148,9 +77,10 @@ body{
   backface-visibility:hidden;
 }
 
-.card-front{background:#6c6f9c;}
-.card-back{background:#f2a7c1;transform:rotateY(180deg);}
-.card.flipped{transform:rotateY(180deg);}
+.card-front{ background:#6c6f9c; }
+.card-back{ background:#f2a7c1; transform:rotateY(180deg); }
+
+.card.flipped{ transform:rotateY(180deg); }
 
 /* ===== BUTTON ===== */
 button{
@@ -163,7 +93,10 @@ button{
 }
 
 /* ===== CAKE ===== */
-#cake{font-size:80px;margin:20px 0;}
+#cake{
+  font-size:80px;
+  margin:20px 0;
+}
 
 /* ===== VIDEO ===== */
 video{
@@ -172,7 +105,32 @@ video{
   border-radius:12px;
 }
 
-/* ===== TYPING ===== */
+/* ===== PAGE SYSTEM ===== */
+.page{
+  position:absolute;
+  width:100%;
+  top:0;
+  left:0;
+  opacity:0;
+  transform:scale(0.9);
+  pointer-events:none;
+}
+
+.page.active{
+  opacity:1;
+  transform:scale(1);
+  pointer-events:auto;
+  animation:popup 0.35s ease;
+}
+
+/* ===== POPUP ===== */
+@keyframes popup{
+  0%{opacity:0; transform:scale(0.7);}
+  60%{opacity:1; transform:scale(1.05);}
+  100%{transform:scale(1);}
+}
+
+/* ===== TYPING TEXT ===== */
 .typing{
   white-space:pre-line;
   text-align:left;
@@ -184,6 +142,7 @@ video{
 
 <body>
 
+<!-- BACKGROUND MUSIC -->
 <audio id="bgMusic" loop>
   <source src="ssstik.io_@nogika_chaba_1770562410533.mp4" type="audio/mp4">
 </audio>
@@ -192,49 +151,37 @@ video{
 
 <div class="container">
 
-<!-- OPEN LETTER -->
-<div id="letterPage" class="page active">
-  <div class="letter-wrapper">
-    <div class="envelope" onclick="openLetter()">
-      <div class="envelope-top"></div>
-      <div class="envelope-body"></div>
-      <div class="letter-text">
-        <h3>For You 💌</h3>
-        <p>Klik amplopnya</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- GAME -->
-<div id="gamePage" class="page">
-  <h2>A Little Game 🎁</h2>
-  <p>Balik 2 kartu yang sama</p>
+<!-- PAGE 1 GAME -->
+<div id="gamePage" class="page active">
+  <h2>A Little Game for You 🎁</h2>
+  <p>Balik 2 kartu yang sama!</p>
   <div class="card-box" id="board"></div>
 </div>
 
-<!-- CAKE -->
+<!-- PAGE 2 CAKE -->
 <div id="cakePage" class="page">
-  <h2>Make a Wish 🎂</h2>
+  <h2>Make a Wish 🎉</h2>
   <div id="cake">🎂🔥</div>
+  <p>Buat permintaan lalu tiup lilinnya!</p>
   <button onclick="blowCandle()">Tiup Lilin</button>
 </div>
 
-<!-- MESSAGE -->
+<!-- PAGE 3 MESSAGE -->
 <div id="msgPage" class="page">
   <h2>Happy Birthday 🥳</h2>
   <div id="typedText" class="typing"></div>
   <button onclick="showPage('galleryPage')">Buka Gallery 📸</button>
 </div>
 
-<!-- GALLERY -->
+<!-- PAGE 4 GALLERY -->
 <div id="galleryPage" class="page">
   <h2>Gallery Memories 🎬</h2>
+  <h4>matiin musiknya ya biar ga nabarak suaranyaa💖</h4>
 
   <video controls>
     <source src="d53857f39bad42c8abb7c0aed4613977.mp4" type="video/mp4">
   </video>
-  <p>Momen pertama kita 💖</p>
+  <p>Momen pertama kita bikin video bareng 💖</p>
 
   <video controls>
     <source src="VID-20250414-WA0130.mp4" type="video/mp4">
@@ -247,76 +194,128 @@ video{
 </div>
 
 <script>
-/* MUSIC */
-const bgMusic=document.getElementById('bgMusic');
-let musicPlaying=false;
+/* ===== MUSIC ===== */
+const bgMusic = document.getElementById('bgMusic');
+let musicPlaying = false;
+
 function toggleMusic(){
-  if(!musicPlaying){bgMusic.volume=0.4;bgMusic.play();musicPlaying=true;}
-  else{bgMusic.pause();musicPlaying=false;}
+  if(!musicPlaying){
+    bgMusic.volume = 0.4;
+    bgMusic.play();
+    musicPlaying = true;
+  }else{
+    bgMusic.pause();
+    musicPlaying = false;
+  }
 }
 
-/* OPEN LETTER */
-function openLetter(){
-  document.querySelector('.envelope').classList.add('open');
-  setTimeout(()=>showPage('gamePage'),900);
+/* ===== MEMORY GAME ===== */
+const icons = ['🎉','🎁','💖','🥳'];
+let cards = [...icons, ...icons].sort(() => Math.random() - 0.5);
+const board = document.getElementById('board');
+
+let first=null, second=null, lock=false, matched=0;
+
+cards.forEach(icon=>{
+  const card=document.createElement('div');
+  card.className='card';
+
+  const front=document.createElement('div');
+  front.className='card-face card-front';
+
+  const back=document.createElement('div');
+  back.className='card-face card-back';
+  back.textContent=icon;
+
+  card.append(front,back);
+  board.appendChild(card);
+
+  card.onclick=()=>{
+    if(!musicPlaying){
+      bgMusic.volume=0.4;
+      bgMusic.play();
+      musicPlaying=true;
+    }
+
+    if(lock || card===first || card.classList.contains('matched')) return;
+    card.classList.add('flipped');
+
+    if(!first){
+      first=card;
+    }else{
+      second=card;
+      lock=true;
+
+      if(first.lastChild.textContent===second.lastChild.textContent){
+        first.classList.add('matched');
+        second.classList.add('matched');
+        matched++;
+        reset();
+
+        if(matched===icons.length){
+          setTimeout(()=>showPage('cakePage'),700);
+        }
+      }else{
+        setTimeout(()=>{
+          first.classList.remove('flipped');
+          second.classList.remove('flipped');
+          reset();
+        },800);
+      }
+    }
+  };
+});
+
+function reset(){
+  first=null; second=null; lock=false;
 }
 
-/* PAGE */
+/* ===== PAGE SWITCH ===== */
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const t=document.getElementById(id);
   void t.offsetWidth;
   t.classList.add('active');
+
   if(id==='msgPage') startTyping();
 }
 
-/* GAME */
-const icons=['🎉','🎁','💖','🥳'];
-let cards=[...icons,...icons].sort(()=>Math.random()-0.5);
-const board=document.getElementById('board');
-let first=null,second=null,lock=false,matched=0;
-
-cards.forEach(icon=>{
-  const card=document.createElement('div');
-  card.className='card';
-  card.innerHTML=`<div class="card-face card-front"></div><div class="card-face card-back">${icon}</div>`;
-  board.appendChild(card);
-
-  card.onclick=()=>{
-    if(lock||card===first||card.classList.contains('matched'))return;
-    card.classList.add('flipped');
-    if(!first){first=card;}
-    else{
-      second=card;lock=true;
-      if(first.lastChild.textContent===second.lastChild.textContent){
-        first.classList.add('matched');
-        second.classList.add('matched');
-        matched++;reset();
-        if(matched===icons.length)setTimeout(()=>showPage('cakePage'),700);
-      }else{
-        setTimeout(()=>{first.classList.remove('flipped');second.classList.remove('flipped');reset();},800);
-      }
-    }
-  }
-});
-
-function reset(){first=null;second=null;lock=false;}
-
-/* CAKE */
+/* ===== CAKE ===== */
 function blowCandle(){
   document.getElementById('cake').textContent='🎂';
   setTimeout(()=>showPage('msgPage'),800);
 }
 
-/* TYPING */
-const message=`Semoga kamu selalu sehat, bahagia, dan semua keinginanmu tercapai.
+/* ===== TYPING EFFECT ===== */
+const message=`Semoga kamu selalu sehat, bahagia, dan semua keinginanmu tercapai tahun ini.
 
-Aku selalu dukung kamu, kapan pun itu. 💖`;
-let typed=false;
+Di usia yang baru ini, semoga kamu makin kuat, makin sabar, dan makin percaya sama diri sendiri.
+Apa pun yang kamu impikan, pelan-pelan semoga satu per satu bisa terwujud dengan cara terbaik.
+
+Semangat terus ya buat ngejar semua keinginan kamu.
+Aku selalu dukung kamu dari sini. 💖`;
+
+
+let alreadyTyped = false;
+
 function startTyping(){
-  if(typed)return;typed=true;
-  const el=document.getElementById('typedText');el.textContent='';
-  let i=0;function type(){if(i<message.length){el.textContent+=message[i++];setTimeout(type,25);}}type();
+  if(alreadyTyped) return;
+  alreadyTyped = true;
+
+  const el = document.getElementById('typedText');
+  el.textContent = '';
+
+  let i = 0;
+
+  function type(){
+    if(i < message.length){
+      el.textContent += message.charAt(i);
+      i++;
+      setTimeout(type, 25);
+    }
+  }
+
+  type();
 }
 </script>
 
