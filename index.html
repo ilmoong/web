@@ -8,10 +8,8 @@
 <style>
 body{
   margin:0;
-  font-family:'Segoe UI', sans-serif;
-  background:
-    linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
-    url('images.jpg') center/cover no-repeat fixed;
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(#2b2e5a,#1c1e3c);
   color:white;
   display:flex;
   justify-content:center;
@@ -33,15 +31,17 @@ body{
   position:fixed;
   top:15px;
   right:15px;
-  background:#ffffff22;
-  color:white;
-  border:none;
+  width:52px;
+  height:52px;
   border-radius:50%;
-  width:48px;
-  height:48px;
-  font-size:20px;
+  border:none;
+  background:url('Spotify light pink app icons for iPhone 2024.jpg') center/cover no-repeat;
   cursor:pointer;
+  box-shadow:0 6px 14px rgba(0,0,0,0.3);
+  transition:transform 0.2s, opacity 0.2s;
 }
+.music-btn:hover{ transform:scale(1.08); }
+.music-btn.paused{ opacity:0.6; }
 
 /* ===== CARD GAME ===== */
 .card-box{
@@ -60,7 +60,6 @@ body{
   transform-style:preserve-3d;
   transition:transform 0.45s;
 }
-
 .card:hover{transform:scale(1.05);}
 
 .card-face{
@@ -74,10 +73,8 @@ body{
   font-size:30px;
   backface-visibility:hidden;
 }
-
 .card-front{ background:#6c6f9c; }
 .card-back{ background:#f2a7c1; transform:rotateY(180deg); }
-
 .card.flipped{ transform:rotateY(180deg); }
 
 /* ===== BUTTON ===== */
@@ -91,10 +88,7 @@ button{
 }
 
 /* ===== CAKE ===== */
-#cake{
-  font-size:80px;
-  margin:20px 0;
-}
+#cake{ font-size:80px; margin:20px 0; }
 
 /* ===== VIDEO ===== */
 video{
@@ -113,7 +107,6 @@ video{
   transform:scale(0.9);
   pointer-events:none;
 }
-
 .page.active{
   opacity:1;
   transform:scale(1);
@@ -121,14 +114,13 @@ video{
   animation:popup 0.35s ease;
 }
 
-/* ===== POPUP ===== */
 @keyframes popup{
   0%{opacity:0; transform:scale(0.7);}
   60%{opacity:1; transform:scale(1.05);}
   100%{transform:scale(1);}
 }
 
-/* ===== TYPING TEXT ===== */
+/* ===== TYPING ===== */
 .typing{
   white-space:pre-line;
   text-align:left;
@@ -142,21 +134,21 @@ video{
 
 <!-- BACKGROUND MUSIC -->
 <audio id="bgMusic" loop>
-  <source src="ssstik.io_@nogika_chaba_1770562410533.mp4" type="audio/mp4">
+  <source src="ssstik.io_@nogika_chaba_1770562410533.mp4" type="audio/mpeg">
 </audio>
 
-<button class="music-btn" onclick="toggleMusic()">🎵</button>
+<button class="music-btn paused" onclick="toggleMusic()"></button>
 
 <div class="container">
 
-<!-- PAGE 1 GAME -->
+<!-- PAGE 1 -->
 <div id="gamePage" class="page active">
   <h2>A Little Game for You 🎁</h2>
   <p>Balik 2 kartu yang sama!</p>
   <div class="card-box" id="board"></div>
 </div>
 
-<!-- PAGE 2 CAKE -->
+<!-- PAGE 2 -->
 <div id="cakePage" class="page">
   <h2>Make a Wish 🎉</h2>
   <div id="cake">🎂🔥</div>
@@ -164,24 +156,24 @@ video{
   <button onclick="blowCandle()">Tiup Lilin</button>
 </div>
 
-<!-- PAGE 3 MESSAGE -->
+<!-- PAGE 3 -->
 <div id="msgPage" class="page">
   <h2>Happy Birthday 🥳</h2>
   <div id="typedText" class="typing"></div>
   <button onclick="showPage('galleryPage')">Buka Gallery 📸</button>
 </div>
 
-<!-- PAGE 4 GALLERY -->
+<!-- PAGE 4 -->
 <div id="galleryPage" class="page">
   <h2>Gallery Memories 🎬</h2>
 
   <video controls>
-    <source src="d53857f39bad42c8abb7c0aed4613977.mp4" type="video/mp4">
+    <source src="d53857f39bad42c8abb7c0aed4613977.mp4">
   </video>
   <p>Momen pertama kita bikin video bareng 💖</p>
 
   <video controls>
-    <source src="VID-20250414-WA0130.mp4" type="video/mp4">
+    <source src="VID-20250414-WA0130.mp4">
   </video>
   <p>Duo evos 😭</p>
 
@@ -192,26 +184,29 @@ video{
 
 <script>
 /* ===== MUSIC ===== */
-const bgMusic = document.getElementById('bgMusic');
-let musicPlaying = false;
+const bgMusic=document.getElementById('bgMusic');
+let musicPlaying=false;
 
 function toggleMusic(){
+  const btn=document.querySelector('.music-btn');
   if(!musicPlaying){
-    bgMusic.volume = 0.4;
+    bgMusic.volume=0.4;
     bgMusic.play();
-    musicPlaying = true;
+    musicPlaying=true;
+    btn.classList.remove('paused');
   }else{
     bgMusic.pause();
-    musicPlaying = false;
+    musicPlaying=false;
+    btn.classList.add('paused');
   }
 }
 
-/* ===== MEMORY GAME ===== */
-const icons = ['🎉','🎁','💖','🥳'];
-let cards = [...icons, ...icons].sort(() => Math.random() - 0.5);
-const board = document.getElementById('board');
+/* ===== GAME ===== */
+const icons=['🎉','🎁','💖','🥳'];
+let cards=[...icons,...icons].sort(()=>Math.random()-0.5);
+const board=document.getElementById('board');
 
-let first=null, second=null, lock=false, matched=0;
+let first=null,second=null,lock=false,matched=0;
 
 cards.forEach(icon=>{
   const card=document.createElement('div');
@@ -228,27 +223,17 @@ cards.forEach(icon=>{
   board.appendChild(card);
 
   card.onclick=()=>{
-    if(!musicPlaying){
-      bgMusic.volume=0.4;
-      bgMusic.play();
-      musicPlaying=true;
-    }
-
-    if(lock || card===first || card.classList.contains('matched')) return;
+    if(!musicPlaying){ toggleMusic(); }
+    if(lock||card===first||card.classList.contains('matched'))return;
     card.classList.add('flipped');
 
-    if(!first){
-      first=card;
-    }else{
-      second=card;
-      lock=true;
-
+    if(!first){ first=card; }
+    else{
+      second=card; lock=true;
       if(first.lastChild.textContent===second.lastChild.textContent){
         first.classList.add('matched');
         second.classList.add('matched');
-        matched++;
-        reset();
-
+        matched++; reset();
         if(matched===icons.length){
           setTimeout(()=>showPage('cakePage'),700);
         }
@@ -260,20 +245,17 @@ cards.forEach(icon=>{
         },800);
       }
     }
-  };
+  }
 });
 
-function reset(){
-  first=null; second=null; lock=false;
-}
+function reset(){ first=null; second=null; lock=false; }
 
-/* ===== PAGE SWITCH ===== */
+/* ===== PAGE ===== */
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const t=document.getElementById(id);
   void t.offsetWidth;
   t.classList.add('active');
-
   if(id==='msgPage') startTyping();
 }
 
@@ -283,7 +265,7 @@ function blowCandle(){
   setTimeout(()=>showPage('msgPage'),800);
 }
 
-/* ===== TYPING EFFECT ===== */
+/* ===== TYPING ===== */
 const message=`Semoga kamu selalu sehat, bahagia, dan semua keinginanmu tercapai tahun ini.
 
 Di usia yang baru ini, semoga kamu makin kuat, makin sabar, dan makin percaya sama diri sendiri.
@@ -296,11 +278,9 @@ function startTyping(){
   const el=document.getElementById('typedText');
   el.textContent='';
   let i=0;
-
   function type(){
     if(i<message.length){
-      el.textContent+=message[i];
-      i++;
+      el.textContent+=message[i++];
       setTimeout(type,25);
     }
   }
