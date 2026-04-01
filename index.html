@@ -154,7 +154,7 @@ video{
 
 <!-- CAKE (UPDATED) -->
 <div id="cakePage" class="page">
-  <h2>Make a Wish 🎉</h2>
+  <h2 id="cakeTitle">Make a Wish 🎉</h2>
 
   <!-- GIF LILIN -->
   <img id="candleGif" src="candle.gif">
@@ -272,6 +272,7 @@ function blowCandle(){
   document.getElementById('blowBtn').style.display = 'none';
 
   // 🔥 GANTI TEKS DI SINI
+  document.getElementById('cakeTitle').style.display = 'none';
   document.getElementById('cakeText').textContent = "Yeay 🎉 selamat ulang tahun!!";
 
   const cake = document.getElementById('cakeGif');
