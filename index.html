@@ -156,11 +156,16 @@ video{
 <div id="cakePage" class="page">
   <h2>Make a Wish 🎉</h2>
 
-  <img id="cakeGif" src="candle.gif">
+  <!-- GIF LILIN -->
+  <img id="candleGif" src="candle.gif">
+
+  <!-- GIF CAKE (hidden dulu) -->
+  <img id="cakeGif" src="cake-candle.gif" style="display:none;">
 
   <p>Buat permintaan lalu tiup lilinnya!</p>
 
-  <button onclick="blowCandle()">Tiup Lilin</button>
+  <!-- BUTTON -->
+  <button id="blowBtn" onclick="blowCandle()">Tiup Lilin</button>
 </div>
 
 <!-- MESSAGE -->
@@ -262,13 +267,21 @@ function reset(){first=null;second=null;lock=false;}
 
 /* CAKE ANIMATION */
 function blowCandle(){
-  const cake=document.getElementById('cakeGif');
+  // sembunyiin lilin
+  document.getElementById('candleGif').style.display = 'none';
 
-  cake.src="cake-candle.gif";
+  // munculin cake
+  document.getElementById('cakeGif').style.display = 'block';
 
-  cake.style.transform="scale(1.1)";
+  // sembunyiin tombol
+  document.getElementById('blowBtn').style.display = 'none';
+
+  // animasi dikit biar lucu
+  const cake = document.getElementById('cakeGif');
+  cake.style.transform = "scale(1.1)";
   setTimeout(()=>cake.style.transform="scale(1)",200);
 
+  // pindah page
   setTimeout(()=>showPage('msgPage'),4000);
 }
 
