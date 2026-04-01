@@ -227,6 +227,38 @@ button{
 button:hover{
   transform:scale(1.05);
 }
+
+/* ZOOM MODAL */
+#zoomModal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.85);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  transition:0.3s;
+  z-index:999;
+}
+
+#zoomModal img{
+  max-width:90%;
+  max-height:85%;
+  border-radius:12px;
+  transform:scale(0.8);
+  transition:0.3s;
+}
+
+/* aktif */
+#zoomModal.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+#zoomModal.show img{
+  transform:scale(1);
+}
 </style>
 </head>
 
@@ -293,32 +325,32 @@ button:hover{
   <div class="photo-grid">
 
     <div class="photo-card" style="--r:0">
-      <img src="foto1.png">
+      <img src="foto1.png" onclick="openZoom(this.src)">
       <p>first moment 💕</p>
     </div>
 
     <div class="photo-card" style="--r:1">
-      <img src="foto2.png">
+      <img src="foto2.png" onclick="openZoom(this.src)">
       <p>kita disini 😭</p>
     </div>
 
     <div class="photo-card" style="--r:0.5">
-      <img src="foto3.png">
+      <img src="foto3.png" onclick="openZoom(this.src)">
       <p>random tapi lucu</p>
     </div>
 
     <div class="photo-card" style="--r:1.2">
-      <img src="foto4.png">
+      <img src="foto4.png" onclick="openZoom(this.src)">
       <p>duo chaos 💀</p>
     </div>
 
     <div class="photo-card" style="--r:0.3">
-      <img src="foto5.png">
+      <img src="foto5.png" onclick="openZoom(this.src)">
       <p>aku suka ini 💖</p>
     </div>
 
     <div class="photo-card" style="--r:1.5">
-      <img src="foto6.png">
+      <img src="foto6.png" onclick="openZoom(this.src)">
       <p>last but special ✨</p>
     </div>
 
@@ -343,6 +375,18 @@ function toggleMusic(){
     bgMusic.pause();
     musicPlaying=false;
   }
+}
+
+function openZoom(src){
+  const modal = document.getElementById('zoomModal');
+  const img = document.getElementById('zoomImg');
+
+  img.src = src;
+  modal.classList.add('show');
+}
+
+function closeZoom(){
+  document.getElementById('zoomModal').classList.remove('show');
 }
 
 /* GAME */
@@ -448,7 +492,11 @@ function startTyping(){
   }
   type();
 }
+
 </script>
 
+<div id="zoomModal" onclick="closeZoom()">
+  <img id="zoomImg">
+</div>
 </body>
 </html>
