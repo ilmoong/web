@@ -162,7 +162,7 @@ video{
   <!-- GIF CAKE (hidden dulu) -->
   <img id="cakeGif" src="cake-candle.gif" style="display:none;">
 
-  <p>Buat permintaan lalu tiup lilinnya!</p>
+  <p id="cakeText">Buat permintaan lalu tiup lilinnya!</p>
 
   <!-- BUTTON -->
   <button id="blowBtn" onclick="blowCandle()">Tiup Lilin</button>
@@ -267,21 +267,17 @@ function reset(){first=null;second=null;lock=false;}
 
 /* CAKE ANIMATION */
 function blowCandle(){
-  // sembunyiin lilin
   document.getElementById('candleGif').style.display = 'none';
-
-  // munculin cake
   document.getElementById('cakeGif').style.display = 'block';
-
-  // sembunyiin tombol
   document.getElementById('blowBtn').style.display = 'none';
 
-  // animasi dikit biar lucu
+  // 🔥 GANTI TEKS DI SINI
+  document.getElementById('cakeText').textContent = "Yeay 🎉 selamat ulang tahun!!";
+
   const cake = document.getElementById('cakeGif');
   cake.style.transform = "scale(1.1)";
   setTimeout(()=>cake.style.transform="scale(1)",200);
 
-  // pindah page
   setTimeout(()=>showPage('msgPage'),4000);
 }
 
