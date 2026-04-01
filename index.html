@@ -144,18 +144,88 @@ video{
   text-align:center;
 }
 
+/* ===== TIKTOK AESTHETIC STYLE ===== */
+
+/* background blur overlay */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  backdrop-filter:blur(6px);
+  z-index:-1;
+}
+
+/* floating bubble */
+.bubble{
+  position:fixed;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,0.15);
+  animation:float 12s infinite linear;
+}
+
+.b1{ width:80px;height:80px; left:10%; top:20%; }
+.b2{ width:60px;height:60px; left:70%; top:30%; }
+.b3{ width:100px;height:100px; left:50%; top:70%; }
+
+@keyframes float{
+  0%{ transform:translateY(0);}
+  50%{ transform:translateY(-30px);}
+  100%{ transform:translateY(0);}
+}
+
+/* photo grid */
 .photo-grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:12px;
+  gap:16px;
   margin-top:20px;
 }
 
-.photo-grid img{
-  width:100%;
+/* polaroid style */
+.photo-card{
+  background:white;
+  padding:10px;
   border-radius:12px;
-  object-fit:cover;
-  box-shadow:0 6px 12px rgba(0,0,0,0.25);
+  box-shadow:0 10px 20px rgba(0,0,0,0.25);
+  transform:rotate(calc(-3deg + 6deg * var(--r)));
+  animation:fadeUp 0.6s ease forwards;
+  opacity:0;
+}
+
+.photo-card img{
+  width:100%;
+  border-radius:8px;
+}
+
+/* caption kecil */
+.photo-card p{
+  font-size:13px;
+  color:#333;
+  margin-top:6px;
+}
+
+/* animasi muncul */
+@keyframes fadeUp{
+  from{
+    transform:translateY(30px);
+    opacity:0;
+  }
+  to{
+    transform:translateY(0);
+    opacity:1;
+  }
+}
+
+/* tombol aesthetic */
+button{
+  background:linear-gradient(135deg,#ff9fbf,#ff6fa5);
+  color:white;
+  font-weight:bold;
+  box-shadow:0 5px 12px rgba(0,0,0,0.25);
+}
+
+button:hover{
+  transform:scale(1.05);
 }
 </style>
 </head>
@@ -217,17 +287,41 @@ video{
   <button onclick="showPage('msgPage')">⬅ Kembali</button>
 </div>
 
-<!-- PHOTO PAGE -->
 <div id="photoPage" class="page">
   <h2>Our Memories 💖</h2>
 
   <div class="photo-grid">
-    <img src="foto1.png">
-    <img src="foto2.png">
-    <img src="foto3.png">
-    <img src="foto4.png">
-    <img src="foto5.png">
-    <img src="foto6.png">
+
+    <div class="photo-card" style="--r:0">
+      <img src="foto1.png">
+      <p>first moment 💕</p>
+    </div>
+
+    <div class="photo-card" style="--r:1">
+      <img src="foto2.png">
+      <p>kita disini 😭</p>
+    </div>
+
+    <div class="photo-card" style="--r:0.5">
+      <img src="foto3.png">
+      <p>random tapi lucu</p>
+    </div>
+
+    <div class="photo-card" style="--r:1.2">
+      <img src="foto4.png">
+      <p>duo chaos 💀</p>
+    </div>
+
+    <div class="photo-card" style="--r:0.3">
+      <img src="foto5.png">
+      <p>aku suka ini 💖</p>
+    </div>
+
+    <div class="photo-card" style="--r:1.5">
+      <img src="foto6.png">
+      <p>last but special ✨</p>
+    </div>
+
   </div>
 
   <button onclick="showPage('galleryPage')">⬅ Kembali</button>
