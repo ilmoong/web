@@ -258,6 +258,25 @@ button:hover{
 #zoomModal.show img{
   transform:scale(1);
 }
+
+.nav-btn{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:20px;
+}
+
+.nav-btn button{
+  width:48%;
+}
+
+.nav-btn button:first-child{
+  background:linear-gradient(135deg,#999,#777);
+}
+
+.nav-btn button:last-child{
+  background:linear-gradient(135deg,#ff9fbf,#ff6fa5);
+}
 </style>
 </head>
 
@@ -322,8 +341,10 @@ button:hover{
   <p>Salah satu video favorit aku,dan masih banyak yang lainnya</p>
 
   
+<div class="nav-btn">
   <button onclick="showPage('msgPage')">⬅ Kembali</button>
   <button onclick="showPage('photoPage')">Next ➡</button>
+</div>
 </div>
 
 <div id="photoPage" class="page">
